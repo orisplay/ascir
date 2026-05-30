@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "File-system write operations",
+  "name": "agent-file-writer",
+  "version": "1.0.0"
+}

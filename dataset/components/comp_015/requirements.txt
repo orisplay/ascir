@@ -1,0 +1,2 @@
+# Dependencies for agent-event-logger.
+# No external dependencies.

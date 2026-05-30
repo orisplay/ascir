@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Streaming response parser",
+  "name": "agent-stream-parser",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Embedding vector caching",
+  "name": "agent-embedding-cache",
+  "version": "1.0.0"
+}

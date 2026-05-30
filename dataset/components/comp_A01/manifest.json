@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Task scheduling and queue management",
+  "name": "agent-scheduler",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Error capture and routing",
+  "name": "agent-error-handler",
+  "version": "1.0.0"
+}

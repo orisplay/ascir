@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Output sanitization",
+  "name": "agent-output-sanitizer",
+  "version": "1.0.0"
+}

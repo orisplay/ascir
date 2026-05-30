@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Action permission verification",
+  "name": "agent-permission-checker",
+  "version": "1.0.0"
+}

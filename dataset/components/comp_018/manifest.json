@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Outbound HTTP client wrapper",
+  "name": "agent-http-client",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Markdown to plain-text rendering",
+  "name": "agent-markdown-renderer",
+  "version": "1.0.0"
+}

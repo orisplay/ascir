@@ -1,0 +1,2 @@
+# Dependencies for agent-secret-vault.
+# No external dependencies.

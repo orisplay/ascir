@@ -1,0 +1,2 @@
+# Dependencies for agent-vector-search.
+# No external dependencies.

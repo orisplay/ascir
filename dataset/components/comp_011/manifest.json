@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Context window management",
+  "name": "agent-context-window",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Shell command wrapper",
+  "name": "agent-shell-wrapper",
+  "version": "1.0.0"
+}

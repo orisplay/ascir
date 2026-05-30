@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Local secrets storage",
+  "name": "agent-secret-vault",
+  "version": "1.0.0"
+}

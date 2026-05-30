@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Notification dispatch",
+  "name": "agent-notification-sender",
+  "version": "1.0.0"
+}

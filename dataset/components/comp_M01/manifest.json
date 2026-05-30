@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Persistent memory storage interface",
+  "name": "agent-memory-store",
+  "version": "1.0.0"
+}

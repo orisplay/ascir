@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Screen capture interface",
+  "name": "agent-screenshot-capture",
+  "version": "1.0.0"
+}

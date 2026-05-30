@@ -1,0 +1,2 @@
+# Dependencies for agent-shell-wrapper.
+# No external dependencies.

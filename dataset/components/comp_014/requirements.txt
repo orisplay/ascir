@@ -1,0 +1,2 @@
+# Dependencies for agent-session-manager.
+# No external dependencies.

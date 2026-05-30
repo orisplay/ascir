@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Sandboxed code execution",
+  "name": "agent-code-executor",
+  "version": "1.0.0"
+}

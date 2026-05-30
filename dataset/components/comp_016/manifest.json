@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Configuration file loader",
+  "name": "agent-config-loader",
+  "version": "1.0.0"
+}

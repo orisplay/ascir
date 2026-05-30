@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Local tool execution wrapper",
+  "name": "agent-tool-runner",
+  "version": "1.0.0"
+}

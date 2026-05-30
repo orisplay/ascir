@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Failure retry and backoff logic",
+  "name": "agent-retry-policy",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Telemetry event emission",
+  "name": "agent-telemetry-emitter",
+  "version": "1.0.0"
+}

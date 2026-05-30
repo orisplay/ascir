@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "WebSocket client wrapper",
+  "name": "agent-websocket-client",
+  "version": "1.0.0"
+}

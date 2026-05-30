@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Clipboard read/write bridge",
+  "name": "agent-clipboard-bridge",
+  "version": "1.0.0"
+}

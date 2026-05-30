@@ -1,0 +1,2 @@
+# Dependencies for agent-context-window.
+# No external dependencies.

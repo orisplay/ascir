@@ -1,0 +1,2 @@
+# Dependencies for agent-markdown-renderer.
+# No external dependencies.

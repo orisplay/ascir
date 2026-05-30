@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Token counting and budget tracking",
+  "name": "agent-token-counter",
+  "version": "1.0.0"
+}

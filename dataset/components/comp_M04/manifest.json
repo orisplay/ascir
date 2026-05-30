@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "File-system read operations",
+  "name": "agent-file-reader",
+  "version": "1.0.0"
+}

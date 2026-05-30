@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Structured event logging",
+  "name": "agent-event-logger",
+  "version": "1.0.0"
+}

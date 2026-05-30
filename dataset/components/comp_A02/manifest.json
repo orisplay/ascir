@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "Prompt construction helpers",
+  "name": "agent-prompt-builder",
+  "version": "1.0.0"
+}

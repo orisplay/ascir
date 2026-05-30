@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "API rate limiting middleware",
+  "name": "agent-rate-limiter",
+  "version": "1.0.0"
+}

@@ -1,0 +1,6 @@
+{
+  "author": "ASCIR Test Suite",
+  "description": "User session state tracking",
+  "name": "agent-session-manager",
+  "version": "1.0.0"
+}

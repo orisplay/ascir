@@ -1,0 +1,2 @@
+# Dependencies for agent-telemetry-emitter.
+# No external dependencies.

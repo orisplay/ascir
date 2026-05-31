@@ -26,6 +26,12 @@ import shutil
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+
+# Make the repo root importable so the shared ascir_common package resolves
+# regardless of the current working directory.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from ascir_common.manifest_hash import compute_manifest_hash
 
 
 # ===========================================================================
@@ -324,22 +330,10 @@ def write_component(component_dir, files):
         (component_dir / filename).write_text(content)
 
 
-# ===========================================================================
-# Manifest hash computation (per chaincode-interface Section 4.2)
-# ===========================================================================
+# Manifest hashing (chaincode-interface Section 4.2) is provided by
+# ascir_common.manifest_hash.compute_manifest_hash, imported above and shared
+# with the detector so the two tools cannot diverge.
 
-def compute_manifest_hash(component_dir):
-    """SHA-256 of the concatenated sorted list of
-    (relative_path, file_sha256) pairs."""
-    pairs = []
-    for path in sorted(component_dir.rglob("*")):
-        if path.is_file():
-            rel_path = path.relative_to(component_dir).as_posix()
-            file_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-            pairs.append(f"{rel_path}:{file_hash}")
-
-    concatenated = "\n".join(pairs).encode("utf-8")
-    return hashlib.sha256(concatenated).hexdigest()
 
 
 def count_files_and_size(component_dir):

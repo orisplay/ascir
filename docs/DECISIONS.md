@@ -43,3 +43,45 @@ testbed targets, and (b) which version of the contract API to depend on.
 API. The first non-trivial network bring-up (Section 5.5, n = 2) will pin a
 specific Fabric peer release; until then, the version is intentionally left
 open and the mock-based tests are network-independent.
+
+---
+
+## D2 — Composite keys via Fabric API; report_id→hash secondary index
+
+**Date:** 2026-05-31
+**Status:** Adopted
+**Context:** The interface spec (Section 4.1) describes ledger keys using a
+tilde notation, e.g. `KG~<manifest_hash>` and `CR~<manifest_hash>~<report_id>`,
+and states that `~` is "the standard Hyperledger Fabric composite-key
+separator." In the v2 chaincode shim, composite keys are constructed with
+`stub.CreateCompositeKey(objectType, attributes)`, which uses an internal
+`U+0000` separator, not a literal `~`. Separately, `RouteCompromise` takes
+only a `report_id`, but the compromise-report key places `report_id` as the
+*second* attribute; Fabric's `GetStateByPartialCompositeKey` matches only a
+left-to-right prefix of attributes, so a record cannot be queried by its
+second attribute directly.
+
+**Decision:**
+
+1. **Use Fabric's composite-key API rather than literal `~`-joined strings.**
+   Keys are created with `CreateCompositeKey(objectType, attributes)` using
+   object types `KG`, `CR`, `RT`, `RD`, and `IDX`. The tilde notation in the
+   interface spec is treated as a description of the *logical* key structure
+   (object type plus ordered attributes), not as the literal on-ledger byte
+   separator. This is the idiomatic approach and makes partial-key range
+   queries (e.g. all CR records for a hash) straightforward via
+   `GetStateByPartialCompositeKey`.
+
+2. **Maintain a `report_id -> manifest_hash` secondary index.** Each call to
+   `ReportCompromise` writes, in addition to the `CR` record, an index record
+   with object type `IDX` keyed on `report_id`, whose value is the
+   manifest hash. `RouteCompromise` resolves its `report_id` argument to the
+   manifest hash via this index, then loads the full `CR` record by complete
+   composite key. This avoids scanning all `CR` records and respects the
+   left-prefix limitation of partial composite-key queries.
+
+**Consequences:** One additional ledger record type (the `IDX` index entry)
+is written per compromise report. The index is append-only like every other
+record and is covered by the contract unit tests. The logical key structure
+in the interface spec remains the reference; the composite-key encoding is
+an implementation detail reconciled here.

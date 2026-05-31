@@ -139,3 +139,19 @@ type RoutingDecision struct {
 	ExcludedJurisdictions []string     `json:"excluded_jurisdictions"`
 	PolicyTrace           []TraceEntry `json:"policy_trace"`
 }
+
+// ---------------------------------------------------------------------------
+// Composite-key object types (see DECISIONS.md D2)
+// ---------------------------------------------------------------------------
+
+// Object-type prefixes for Fabric composite keys. The interface spec's tilde
+// notation (KG~, CR~, RT~, RD~) denotes logical key structure; on the ledger
+// these are the objectType argument to CreateCompositeKey. ObjIndex backs the
+// report_id -> manifest_hash secondary index used by RouteCompromise.
+const (
+	ObjKnownGood = "KG"  // KG~<manifest_hash>
+	ObjReport    = "CR"  // CR~<manifest_hash>~<report_id>
+	ObjRetract   = "RT"  // RT~<report_id>
+	ObjDecision  = "RD"  // RD~<report_id>~<decision_id>
+	ObjIndex     = "IDX" // IDX~<report_id>  (value: manifest_hash)
+)

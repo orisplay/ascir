@@ -106,3 +106,73 @@ separators), consistent with decision D2.
   chaincode in `chaincode/ascir` and this procedure are part of ASCIR.
 - This is the n = 2 stock topology. Adapting org naming/roles to the ASCIR
   sector model (FIN/CI/HC/GOV CERTs) and scaling to n = 3, 4 is subsequent work.
+
+## ReportCompromise and RouteCompromise (verified live, v1.1)
+
+`ReportCompromise` takes five string args plus a `PolicyMetadata` struct; the
+struct is passed as an escaped-JSON string in the final Arg slot. Report a
+CI-sector compromise from Org1 (with the Org1 peer env set per section 3):
+
+```bash
+peer chaincode invoke -o localhost:7050 \
+  --ordererTLSHostnameOverride orderer.example.com \
+  --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" \
+  -C mychannel -n ascir \
+  --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" \
+  --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" \
+  -c '{"function":"ReportCompromise","Args":["<64-hex-hash>","<name>","Org1MSP","<rfc3339-time>","evidence://<ref>","{\"affected_sectors\":[\"CI\"],\"affected_jurisdictions\":[],\"distribution_scope\":\"single_jurisdiction\",\"severity\":\"medium\"}"]}'
+```
+
+Returns `{"status":"reported","report_id":"<uuid>", ...}`. Capture the
+`report_id`.
+
+`RouteCompromise` takes the `report_id` and a `[]string` of known
+jurisdictions (also passed as an escaped-JSON string). For these validation
+runs the four-org list is supplied so results match the unit-test
+expectations, even though the stock test-network has only Org1/Org2 (the
+routing decision is a computed record, not a transmission, so non-member MSP
+IDs are reasoned over without being contacted):
+
+```bash
+peer chaincode invoke -o localhost:7050 \
+  --ordererTLSHostnameOverride orderer.example.com \
+  --tls --cafile "${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem" \
+  -C mychannel -n ascir \
+  --peerAddresses localhost:7051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt" \
+  --peerAddresses localhost:9051 --tlsRootCertFiles "${PWD}/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt" \
+  -c '{"function":"RouteCompromise","Args":["<report_id>","[\"Org1MSP\",\"Org2MSP\",\"Org3MSP\",\"Org4MSP\"]"]}'
+```
+
+Verified results (Fabric 2.5.15, chaincode v1.1):
+
+- CI sector, reporter Org1, medium severity ->
+  `authorized_recipients:["Org2MSP"]`; trace has one `sector_mapping` entry
+  (CI -> Org2). Reporter exclusion does not appear because Org1 was never
+  added.
+- FIN sector, reporter Org1, medium severity ->
+  `authorized_recipients:[]` (empty); trace has `sector_mapping` (FIN ->
+  Org1) followed by `reporter_exclusion` (Org1 removed). The only affected
+  jurisdiction is the reporter, so there is no one else to notify.
+
+These match the mock-based unit tests (M02_CI and M01_FIN respectively).
+
+## Schema-validation gotcha (chaincode v1.0 -> v1.1)
+
+The first `RouteCompromise` invocation under v1.0 failed with:
+
+```
+endorsement failure ... value did not match schema: return.policy_trace.0: removed is required
+```
+
+Cause: contractapi v2 generates a return-value JSON schema from the Go
+structs and, by default, marks every struct field required. `TraceEntry`
+uses `omitempty` on `Added`/`Removed` (an entry sets only one), so a
+`sector_mapping` entry (no `removed`) failed validation. Fix: tag both
+fields `metadata:",optional"` so the schema matches the `omitempty` shape.
+Committed in chaincode/ascir/model.go; redeployed as v1.1, sequence 2 via:
+
+```bash
+./network.sh deployCC -ccn ascir -ccp ~/research/ascir/chaincode/ascir -ccl go -ccv 1.1 -ccs 2
+```
+
+In-place upgrade preserves ledger state (existing reports remain routable).

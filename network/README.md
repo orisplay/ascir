@@ -176,3 +176,48 @@ Committed in chaincode/ascir/model.go; redeployed as v1.1, sequence 2 via:
 ```
 
 In-place upgrade preserves ledger state (existing reports remain routable).
+
+## Additional verified cases: severity escalation and contested status
+
+Two further cases complete the live validation (Fabric 2.5.15, chaincode v1.1),
+covering the remaining SBA rule and the remaining status branch.
+
+### Severity escalation (critical -> general CERT)
+
+A CI-sector compromise reported with `severity: critical` routes to the CI
+primary jurisdiction (Org2) and, by the escalation rule, also to the general
+national CERT (Org4):
+
+- Report: CI sector, reporter Org1, `severity: critical`.
+- Route (4-org list) -> `authorized_recipients: ["Org2MSP","Org4MSP"]`,
+  `excluded_jurisdictions: ["Org1MSP","Org3MSP"]`.
+- `policy_trace`: `sector_mapping` (CI -> Org2) then `severity_escalation`
+  (critical -> Org4).
+
+Matches unit test `R03_CI_critical`. Confirms the `severity_escalation` rule
+firing on the live ledger.
+
+### Contested status (supply-chain signal)
+
+A component registered known-good and *subsequently* reported compromised
+resolves to `contested` — the supply-chain-attack signature in which a
+legitimate component is compromised after registration:
+
+- `RegisterKnownGood(hash, ...)` then `ReportCompromise(hash, ...)` for the
+  same manifest hash.
+- `QueryCompromiseStatus(hash)` -> `status: "contested"`, with both a
+  populated `known_good_entry` and a non-empty `active_compromise_reports`.
+
+Confirms the fourth status branch (after unknown / known_good / compromised)
+on the live ledger.
+
+### Live-validation coverage summary
+
+All four functions, all four status values (unknown, known_good, compromised,
+contested), and all three SBA routing rules (sector_mapping,
+severity_escalation, reporter_exclusion) have been exercised against the live
+Fabric 2.5.15 testbed, with results matching the mock-based unit tests.
+
+Operational note: multi-line `peer` invoke commands with trailing backslashes
+are fragile when pasted (a mangled continuation can cause the command to run
+incorrectly or not at all). Prefer single-line invocations or a wrapper script.

@@ -1,0 +1,17 @@
+{
+  "name": "ascir-backend",
+  "version": "0.1.0",
+  "description": "ASCIR backend: Fabric Gateway client exposing an HTTP API for registry queries",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "query": "node src/query-test.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.14.4",
+    "@hyperledger/fabric-gateway": "^1.11.0",
+    "express": "^5.2.1"
+  }
+}

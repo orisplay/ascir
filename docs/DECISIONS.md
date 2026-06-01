@@ -85,3 +85,40 @@ is written per compromise report. The index is append-only like every other
 record and is covered by the contract unit tests. The logical key structure
 in the interface spec remains the reference; the composite-key encoding is
 an implementation detail reconciled here.
+
+---
+
+## D3 — Fabric platform version: 2.5.x LTS (2.5.15)
+
+**Date:** 2026-05-31
+**Status:** Adopted
+**Context:** D1 deferred the exact Fabric peer version to network bring-up,
+choosing to target a current release rather than the unrecoverable BICIR
+version. The network is now being stood up, so the version is pinned here.
+
+**Decision:** ASCIR targets **Hyperledger Fabric v2.5.x LTS**, installed at
+**v2.5.15** (peer/orderer/ccenv images and CLI binaries; Fabric CA from the
+same install). Chosen over the newer v3.x line for several project-specific
+reasons:
+
+1. v2.5 is the long-term-support line: stable, security-maintained, and the
+   most thoroughly documented Fabric setup, which minimizes risk during the
+   most config-heavy phase of the project.
+2. It matches the chaincode's dependency stack (fabric-contract-api-go v2 /
+   fabric-chaincode-go v2), already implemented and tested under D1.
+3. It keeps the n = 2 "replication of BICIR" baseline as clean as possible:
+   BICIR was a 2.x-era deployment, so replicating its topology and routing
+   behavior on 2.5.x differs from the original only at the patch level rather
+   than across a major version.
+4. v3's headline feature (SmartBFT Byzantine-fault-tolerant ordering) is not
+   needed for ASCIR's metrics (detection accuracy, routing precision,
+   overhead reduction, latency); a Raft orderer is sufficient. Choosing v3
+   would mean adopting the newer, less-documented line without using the
+   capability that distinguishes it.
+
+**Consequences:** The testbed runs Fabric 2.5.15 with a Raft ordering service.
+Migrating to v3.x and evaluating a BFT orderer remain available as future
+work; nothing in this choice precludes them. The exact toolchain: Fabric
+v2.5.15 (peer commit 83c7930, built with Go 1.26.0), installed via the
+official install-fabric.sh into ~/research/fabric-samples (kept outside the
+repository as upstream tooling).

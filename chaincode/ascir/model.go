@@ -126,8 +126,8 @@ type RetractionRecord struct {
 type TraceEntry struct {
 	Rule    string   `json:"rule"`
 	Input   string   `json:"input"`
-	Added   []string `json:"added,omitempty"`
-	Removed []string `json:"removed,omitempty"`
+	Added   []string `json:"added,omitempty" metadata:",optional"`
+	Removed []string `json:"removed,omitempty" metadata:",optional"`
 }
 
 // RoutingDecision is the audit record produced by RouteCompromise.

@@ -55,6 +55,9 @@ ENV/
 *.test
 # Output of the go coverage tool
 *.out
+# Compiled chaincode binary (go build output; name derived from module path)
+/chaincode/ascir/chaincode
+/chaincode/ascir/ascir
 # Go vendor directory (we use modules, not vendor)
 vendor/
 

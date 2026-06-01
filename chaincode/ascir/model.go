@@ -6,7 +6,7 @@
 // standard library, so the core logic compiles and is unit-testable
 // without a running Fabric network. The Fabric-facing contract
 // functions live in contract.go (added in a later stage).
-package ascir
+package main
 
 // ---------------------------------------------------------------------------
 // Controlled vocabularies (chaincode-interface.md Sections 4.3, 4.4)

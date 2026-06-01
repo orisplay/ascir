@@ -2,7 +2,11 @@ module github.com/orisplay/ascir/chaincode
 
 go 1.26.3
 
-require github.com/hyperledger/fabric-contract-api-go/v2 v2.2.1
+require (
+	github.com/hyperledger/fabric-chaincode-go/v2 v2.3.1-0.20260319210430-56968fdc7833
+	github.com/hyperledger/fabric-contract-api-go/v2 v2.2.1
+	github.com/hyperledger/fabric-protos-go-apiv2 v0.3.7
+)
 
 require (
 	github.com/go-openapi/jsonpointer v0.22.5 // indirect
@@ -15,8 +19,6 @@ require (
 	github.com/go-openapi/swag/stringutils v0.25.5 // indirect
 	github.com/go-openapi/swag/typeutils v0.25.5 // indirect
 	github.com/go-openapi/swag/yamlutils v0.25.5 // indirect
-	github.com/hyperledger/fabric-chaincode-go/v2 v2.3.1-0.20260319210430-56968fdc7833 // indirect
-	github.com/hyperledger/fabric-protos-go-apiv2 v0.3.7 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect

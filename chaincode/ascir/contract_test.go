@@ -1,4 +1,4 @@
-package ascir
+package main
 
 import (
 	"encoding/json"

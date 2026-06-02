@@ -221,3 +221,68 @@ Fabric 2.5.15 testbed, with results matching the mock-based unit tests.
 Operational note: multi-line `peer` invoke commands with trailing backslashes
 are fragile when pasted (a mangled continuation can cause the command to run
 incorrectly or not at all). Prefer single-line invocations or a wrapper script.
+
+## Backend: Fabric Gateway HTTP API
+
+The `backend/` service exposes the registry over HTTP so clients (the detector,
+or any tool) can query it without speaking Fabric directly. It uses the official
+`@hyperledger/fabric-gateway` SDK (the supported path for Fabric 2.4+) and holds
+a long-lived gateway connection to peer0.org1, opened once at startup.
+
+### Prerequisites
+
+- The Fabric network is up and the `ascir` chaincode is deployed (sections above).
+- Node.js 22+ and npm.
+
+### Install and run
+
+```
+cd backend
+npm install          # first time only; installs SDK, gRPC, Express
+npm start            # starts the HTTP server on port 3000
+```
+
+On startup the server connects the gateway and logs the bound port and the
+Fabric target (MSP, peer, channel, chaincode). It reads Org1's User1 identity
+and the peer TLS cert from the test-network tree; override via environment
+(`ASCIR_TEST_NETWORK`, `ASCIR_PEER_ENDPOINT`, `ASCIR_MSP_ID`, etc.) if needed.
+
+### Endpoints
+
+- `GET /health` — readiness and the active Fabric target.
+- `POST /check` with body `{"manifest_hash": "<64-char hex>"}` — returns the
+  chaincode `QueryCompromiseStatus` response (the StatusResponse JSON). A
+  malformed hash returns HTTP 400.
+
+Standalone connection test (no HTTP): `npm run query -- <manifest_hash>`
+(defaults to comp_001's hash), useful for verifying the gateway wiring alone.
+
+### Notes
+
+- The crypto-material paths are testbed-specific (the stock test-network tree);
+  a real deployment would provision a dedicated service identity.
+- gRPC connects to `localhost` while the peer's TLS cert names
+  `peer0.org1.example.com`, so the client sets the
+  `grpc.ssl_target_name_override` option. This is handled in `src/fabric.js`.
+
+## Detector query paths
+
+The detector can resolve a component's registry status two ways:
+
+```
+# Production path: via the backend HTTP API (backend must be running).
+python detector/detector.py --check-api dataset/components/comp_001
+
+# Interim path: via the peer CLI (requires the peer env active in the shell;
+# see section 3). Retained as a fallback.
+python detector/detector.py --check dataset/components/comp_001
+```
+
+Both hash the component with the shared `ascir_common` implementation, resolve
+the status, and print the same verdict (KNOWN_GOOD / COMPROMISED / CONTESTED /
+UNKNOWN with details). `--check-api` is dependency-free (standard-library
+`urllib`); the default backend URL is `http://localhost:3000`, overridable with
+`--backend-url`.
+
+Verified live (Fabric 2.5.15 + backend): comp_001 (registered) -> KNOWN_GOOD
+with the component entry; comp_002 (unregistered) -> UNKNOWN, over both paths.

@@ -1,0 +1,117 @@
+{
+  "set": "routing_core",
+  "description": "Core SBA routing scenarios covering each policy phase (sector_mapping, explicit_jurisdiction incl. ALL, severity_escalation) and reporter_exclusion, plus dedup, empty-set, multi-sector, and partial-exclusion edge cases. expected_recipients are derived by hand from chaincode-interface.md S7 (the SBA spec), independently of the chaincode, and assume the four-org jurisdiction list [Org1MSP, Org2MSP, Org3MSP, Org4MSP] unless a scenario notes otherwise.",
+  "jurisdictions": ["Org1MSP", "Org2MSP", "Org3MSP", "Org4MSP"],
+  "scenarios": [
+    {
+      "id": "fin_single",
+      "report": {
+        "component_name": "ledger-recon-agent",
+        "reporter_org": "Org2MSP",
+        "policy_metadata": {"affected_sectors": ["FIN"], "affected_jurisdictions": [], "distribution_scope": "single_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": ["Org1MSP"],
+      "exercises": ["sector_mapping"]
+    },
+    {
+      "id": "ci_single",
+      "report": {
+        "component_name": "scada-telemetry-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["CI"], "affected_jurisdictions": [], "distribution_scope": "single_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": ["Org2MSP"],
+      "exercises": ["sector_mapping"]
+    },
+    {
+      "id": "hc_single",
+      "report": {
+        "component_name": "clinical-data-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["HC"], "affected_jurisdictions": [], "distribution_scope": "single_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": ["Org3MSP"],
+      "exercises": ["sector_mapping"]
+    },
+    {
+      "id": "gov_single",
+      "report": {
+        "component_name": "records-clerk-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["GOV"], "affected_jurisdictions": [], "distribution_scope": "single_jurisdiction", "severity": "medium"}
+      },
+      "expected_recipients": ["Org4MSP"],
+      "exercises": ["sector_mapping"]
+    },
+    {
+      "id": "ci_critical",
+      "report": {
+        "component_name": "critical-infra-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["CI"], "affected_jurisdictions": [], "distribution_scope": "global", "severity": "critical"}
+      },
+      "expected_recipients": ["Org2MSP", "Org4MSP"],
+      "exercises": ["sector_mapping", "severity_escalation"]
+    },
+    {
+      "id": "gov_critical_dedup",
+      "report": {
+        "component_name": "natsec-coordination-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["GOV"], "affected_jurisdictions": [], "distribution_scope": "global", "severity": "critical"}
+      },
+      "expected_recipients": ["Org4MSP"],
+      "exercises": ["sector_mapping", "severity_escalation", "dedup"]
+    },
+    {
+      "id": "hc_plus_explicit_fin_org",
+      "report": {
+        "component_name": "health-billing-agent",
+        "reporter_org": "Org2MSP",
+        "policy_metadata": {"affected_sectors": ["HC"], "affected_jurisdictions": ["Org1MSP"], "distribution_scope": "multi_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": ["Org1MSP", "Org3MSP"],
+      "exercises": ["sector_mapping", "explicit_jurisdiction"]
+    },
+    {
+      "id": "explicit_all_ci",
+      "report": {
+        "component_name": "supply-chain-broker-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["CI"], "affected_jurisdictions": ["ALL"], "distribution_scope": "global", "severity": "high"}
+      },
+      "expected_recipients": ["Org2MSP", "Org3MSP", "Org4MSP"],
+      "exercises": ["sector_mapping", "explicit_jurisdiction_all", "reporter_exclusion"]
+    },
+    {
+      "id": "fin_reporter_self_empty",
+      "report": {
+        "component_name": "internal-fin-agent",
+        "reporter_org": "Org1MSP",
+        "policy_metadata": {"affected_sectors": ["FIN"], "affected_jurisdictions": [], "distribution_scope": "single_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": [],
+      "exercises": ["sector_mapping", "reporter_exclusion", "empty_set"]
+    },
+    {
+      "id": "ci_critical_reporter_ci",
+      "report": {
+        "component_name": "ci-self-report-agent",
+        "reporter_org": "Org2MSP",
+        "policy_metadata": {"affected_sectors": ["CI"], "affected_jurisdictions": [], "distribution_scope": "global", "severity": "critical"}
+      },
+      "expected_recipients": ["Org4MSP"],
+      "exercises": ["sector_mapping", "severity_escalation", "reporter_exclusion"]
+    },
+    {
+      "id": "multi_sector_fin_hc",
+      "report": {
+        "component_name": "cross-domain-agent",
+        "reporter_org": "Org2MSP",
+        "policy_metadata": {"affected_sectors": ["FIN", "HC"], "affected_jurisdictions": [], "distribution_scope": "multi_jurisdiction", "severity": "high"}
+      },
+      "expected_recipients": ["Org1MSP", "Org3MSP"],
+      "exercises": ["sector_mapping_multi"]
+    }
+  ]
+}

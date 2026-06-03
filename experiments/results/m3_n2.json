@@ -1,0 +1,98 @@
+{
+  "metric": "M3",
+  "n": 2,
+  "scenario_set": "routing_core",
+  "timestamp": "2026-06-03T05:12:03.332167+00:00",
+  "per_scenario": [
+    {
+      "id": "fin_single",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "ci_single",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "hc_single",
+      "r": 0,
+      "n": 2,
+      "ascir_reduction": 1.0,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "gov_single",
+      "r": 0,
+      "n": 2,
+      "ascir_reduction": 1.0,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "ci_critical",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "gov_critical_dedup",
+      "r": 0,
+      "n": 2,
+      "ascir_reduction": 1.0,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "hc_plus_explicit_fin_org",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "explicit_all_ci",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "fin_reporter_self_empty",
+      "r": 0,
+      "n": 2,
+      "ascir_reduction": 1.0,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "ci_critical_reporter_ci",
+      "r": 0,
+      "n": 2,
+      "ascir_reduction": 1.0,
+      "broadcast_reduction": 0.0
+    },
+    {
+      "id": "multi_sector_fin_hc",
+      "r": 1,
+      "n": 2,
+      "ascir_reduction": 0.5,
+      "broadcast_reduction": 0.0
+    }
+  ],
+  "summary": {
+    "mean_ascir_reduction": 0.7273,
+    "mean_broadcast_reduction": 0.0,
+    "scenarios": 11,
+    "note": "mean over the full scenario mix; single-recipient cases reduce more than escalation/multi-sector ones"
+  },
+  "chaincode": {
+    "name": "ascir",
+    "version": "1.1",
+    "sequence": 1
+  },
+  "fabric_version": "2.5.15",
+  "endorser_count": 2
+}

@@ -162,10 +162,16 @@ def main():
     if missing:
         ap.error(f"run outputs missing scenarios: {missing}")
 
+    # Scope the jurisdiction list to the present orgs (first n in canonical
+    # order), matching what the chaincode actually had on the channel. The
+    # scenario file's jurisdictions list is the full (n=4) universe; expected
+    # recipients must be computed against the orgs present at measurement time.
+    scoped_juris = jurisdictions[:n_orgs]
+
     if args.metric == "M2":
-        per, summary = score_m2(scenarios, outputs, jurisdictions)
+        per, summary = score_m2(scenarios, outputs, scoped_juris)
     else:
-        per, summary = score_m3(scenarios, outputs, n_orgs, jurisdictions)
+        per, summary = score_m3(scenarios, outputs, n_orgs, scoped_juris)
 
     result = {
         "metric": args.metric,

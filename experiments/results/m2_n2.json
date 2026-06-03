@@ -1,0 +1,133 @@
+{
+  "metric": "M2",
+  "n": 2,
+  "scenario_set": "routing_core",
+  "timestamp": "2026-06-03T05:12:03.314959+00:00",
+  "per_scenario": [
+    {
+      "id": "fin_single",
+      "expected_recipients": [
+        "Org1MSP"
+      ],
+      "routed_recipients": [
+        "Org1MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "ci_single",
+      "expected_recipients": [
+        "Org2MSP"
+      ],
+      "routed_recipients": [
+        "Org2MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "hc_single",
+      "expected_recipients": [],
+      "routed_recipients": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "gov_single",
+      "expected_recipients": [],
+      "routed_recipients": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "ci_critical",
+      "expected_recipients": [
+        "Org2MSP"
+      ],
+      "routed_recipients": [
+        "Org2MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "gov_critical_dedup",
+      "expected_recipients": [],
+      "routed_recipients": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "hc_plus_explicit_fin_org",
+      "expected_recipients": [
+        "Org1MSP"
+      ],
+      "routed_recipients": [
+        "Org1MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "explicit_all_ci",
+      "expected_recipients": [
+        "Org2MSP"
+      ],
+      "routed_recipients": [
+        "Org2MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "fin_reporter_self_empty",
+      "expected_recipients": [],
+      "routed_recipients": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "ci_critical_reporter_ci",
+      "expected_recipients": [],
+      "routed_recipients": [],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    },
+    {
+      "id": "multi_sector_fin_hc",
+      "expected_recipients": [
+        "Org1MSP"
+      ],
+      "routed_recipients": [
+        "Org1MSP"
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "exact_match": 1
+    }
+  ],
+  "summary": {
+    "mean_precision": 1.0,
+    "mean_recall": 1.0,
+    "exact_match_rate": 1.0,
+    "scenarios": 11
+  },
+  "chaincode": {
+    "name": "ascir",
+    "version": "1.1",
+    "sequence": 1
+  },
+  "fabric_version": "2.5.15",
+  "endorser_count": 2
+}

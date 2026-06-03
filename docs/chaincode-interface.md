@@ -321,13 +321,13 @@ The policy operates over four inputs derived from the CR record's `policy_metada
 
 ### 7.2 Routing Rules
 
-The recipient set is computed in three phases, with each phase potentially adding jurisdictions to the set:
+The recipient set is computed in three phases, with each phase potentially adding jurisdictions to the set. A jurisdiction is added by any phase only if it is among the known jurisdictions on the channel: a notification cannot be routed to a CERT that is not part of the federation. A rule may therefore fire (and appear in the policy trace) yet contribute no recipient when its target jurisdiction is not currently present. As a consequence the recipient set depends on the network size -- the same report yields different recipients as organizations join the channel, which is what the n=2/n=3/n=4 measurements exercise:
 
-1. **Direct sector mapping.** For each sector in `affected_sectors`, the corresponding primary jurisdiction is added to the recipient set. This is the BICIR behavior: a finance-affected compromise routes to the finance CERT.
+1. **Direct sector mapping.** For each sector in `affected_sectors`, the corresponding primary jurisdiction is added to the recipient set if that jurisdiction is present on the channel. This is the BICIR behavior: a finance-affected compromise routes to the finance CERT. A sector whose primary jurisdiction is not currently on the channel contributes no recipient.
 
-2. **Explicit jurisdiction inclusion.** Every jurisdiction listed in `affected_jurisdictions` is added to the recipient set. If the value is the literal `ALL`, all known jurisdictions are added. This handles cases where a compromise affects a jurisdiction outside its primary sector (for example, a healthcare compromise that also affects a finance organization's healthcare-data systems).
+2. **Explicit jurisdiction inclusion.** Every jurisdiction listed in `affected_jurisdictions` that is present on the channel is added to the recipient set. If the value is the literal `ALL`, all known jurisdictions are added (so this case is inherently scoped to those present). This handles cases where a compromise affects a jurisdiction outside its primary sector (for example, a healthcare compromise that also affects a finance organization's healthcare-data systems).
 
-3. **Severity escalation.** If `severity` is `critical`, the general national CERT (`Org4MSP` in the four-org topology) is added to the recipient set regardless of sector. This reflects the operational reality that critical compromises require national-level visibility independent of sector-specific routing.
+3. **Severity escalation.** If `severity` is `critical`, the general national CERT (`Org4MSP` in the four-org topology) is added to the recipient set regardless of sector, provided that CERT is present on the channel. This reflects the operational reality that critical compromises require national-level visibility independent of sector-specific routing.
 
 The excluded set is the complement of the recipient set within the list of known jurisdictions on the channel. The recipient set never includes the reporting organization (a CR record is not routed back to its own reporter), since the reporter already has the information; this exclusion is applied after all three phases.
 

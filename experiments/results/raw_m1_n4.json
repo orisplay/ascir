@@ -1,0 +1,285 @@
+{
+  "metric": "M1",
+  "n": 4,
+  "chaincode": {
+    "name": "ascir",
+    "version": "1.2",
+    "sequence": 1
+  },
+  "fabric_version": "2.5.15",
+  "endorser_count": 3,
+  "dataset": "/home/pop/research/ascir/dataset",
+  "timestamp": "2026-06-03T15:15:52.743616+00:00",
+  "records": [
+    {
+      "component_id": "comp_001",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "dd6a60da439db0d0e20d318b33ccf762e3cb13ab7379e4f34cf53ca697b4abe8",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_002",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "522596f12add775495b63ca59bfb1e7d3f3786d56d07ba08e4e6867d7feceae4",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_003",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "6d57da0147fcf526791961de828f24406e2a4d8c5c924b7fd7b69d1694be935e",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_004",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "96403b9522b4a5b252a90b27c9257455780bf53218fae25717acb657effbd4a9",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_005",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "b63330f9c03a13e37a837bd9f5403e6d7f0465afecfd4c927eba903ec7db3d6d",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_006",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "6e5fc38f8ab9d57abf47701b81d20cd540f0ae36a65c00d455a9d30e9988fab7",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_007",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "af7cc9bc75f977d0c79d3b8641a92afe0d0444853c177b6803e2df4518e4a3c1",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_008",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "a79a4383dd6b5b6dce9c0abb9012d843b493712e9b67d82cfd872aa03fdf5b9d",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_009",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "365f8b45408da8ed5f5b3985a5b37cd0308d55e9a2d023c15d8429c0e9caa058",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_010",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "837c6d39d9a5b91c856a7d7aa1af9ece47cb03a2d319c5d28d8bddd41040be99",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_011",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "408e4e01c15d59d0d59a862627f4f92c7285be4043609d99877414b52fa744c5",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_012",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "e257a6b348b0c2180c70cc5edf0e2b238c2976a42b1206fafd5799bd99c8c2c3",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_013",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "a23076e3ad4cd61cc9cbcd4a652377d77011981a37ab75ec1176c62f45e39375",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_014",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "65efd10285315a97557088ea6654dd5499c8fa1d7ba43ab3afc28911e840b45b",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_015",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "94965a93d1e2fa16c105bcb06be69041b73d12c5b9daa254c36dd59c22694d3e",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_016",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "27f9064f170a2c38af4922b55259440c0de789aad71ec7c390a5f24d3ca614f5",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_017",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "b1cc7d6e38d012d0bc341e61fedd1050fcb6a84bea16a9625b8097f17c16310c",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_018",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "abf40467ab06e93739da5936d286a4430dd1861b7760958648b392fdfb793f39",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_019",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "45a7b7f05c005762dc9115351d99ce5bfdfdc026f3ca23150a4ca2eae2714938",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_020",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "50fbf3e51a136fbf00931328126d2d8ce0dd14a0d07f1a7ee0c85bb3ac592782",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_021",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "56894efad444b4ce02291cc55ebd933f496b79ed5d35d77b0e217d0e59a95307",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_022",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "bcd8a3dd6f32be49e0cbfca9550c6b6bd86540fed8667cd9229c10b5e09f2126",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_023",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "37d6c665afeae0a8ad0f2774aa30e2f8d0c106286d134645bc7d3b265b617510",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_024",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "e33febc7dc8af2c670854650bd9d72b5b1dfcf32207e2670f499b35e07cd4409",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_025",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "f0355b10a5d12b2b3513c356bf00008b3062bb48a60497c10b04bc27fa72b22c",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_026",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "a7add8a23390b4ff9b08053bdfba84f88a2e5c6796c5b37e7b54d88c2553a6c2",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_027",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "533d8855893cb648064bedb541297a93fd4202b10ed5ec422514d30cd22fdccf",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_028",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "d91d21b860113029b0066685d1d2341a54c3c6139f12ac26d779426bcb72888f",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_029",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "1cdf05df6a3b73c2208ffa09b368f51a4536c1dd7637ac9e45b2adbc37dffc95",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_030",
+      "ground_truth_label": "known_good",
+      "manifest_hash": "7042fcaa4dac28c3dac74fdbb7b0fd4f5e81a83961d2cff7628f4e5d3014a6a7",
+      "status": "known_good"
+    },
+    {
+      "component_id": "comp_M01",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "faf88f07a60ede0059973b80523868f4bd5bc1cc4c93ac72310e05e5eb88c8ec",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_M02",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "caae1a957b370031ea41c7a29c126156998f580cde6401f6aaffcd963468d2f0",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_M03",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "7fe2d4a43894967c47ec5716fff6b3563cce910f301b9e23ac3fc6d9b1ac3fc0",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_M04",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "828ed994c850adf5e17ffad936d2504649c44f05c1326dfa580c1997c22b35d3",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_M05",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "e74c028399628e273c4516308f7f10ce93ab8dfb935505337b972896046a5606",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_A01",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "f1f37ba5144b80e08419ac7630bd3b90f0dc276aaec3d6aa22a5a8045ed07f29",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_A02",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "1113a7cd32c9afda1842608c23e78e8f0afde9840adb20362f2760898b87990b",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_A03",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "016beb398caec4fabe889db643201a6861d8ba56805b3637c8966b4c9a1a8ace",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_A04",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "7af11a8306edb3175f2a1540a43ba0a9ed46c1e83c5d64bab6ed492356183e29",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_A05",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "16df80aedc625e03ffdcecbaba63119647f88a69a211a7363f99d24de57d1faa",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_R01",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "b874f2ccf763c19a6dd50fc87248a68b6bdfe496399a49cf436b750da3487b7e",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_R02",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "fcfe2bb99760182be46a2b2a27ef3ac05b943690bfdaa91381db511cb331a153",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_R03",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "51a4cb8edeb7b80cb55e0a5db1d569bfe8d96788ffe65c5ee00ecf9c6391aad0",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_R04",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "b0372613214ffac6e9d8ddb9b0f3f66f1786ad9e15afec86b1168b0eae91e5a3",
+      "status": "compromised"
+    },
+    {
+      "component_id": "comp_R05",
+      "ground_truth_label": "compromised",
+      "manifest_hash": "6a9a2923e377cee99d387500b5b595d5b8cded3f025678a16e7877cd95207b40",
+      "status": "compromised"
+    }
+  ]
+}

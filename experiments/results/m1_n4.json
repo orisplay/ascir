@@ -1,0 +1,343 @@
+{
+  "metric": "M1",
+  "n": 4,
+  "chaincode": {
+    "name": "ascir",
+    "version": "1.2",
+    "sequence": 1
+  },
+  "fabric_version": "2.5.15",
+  "dataset": "/home/pop/research/ascir/dataset",
+  "timestamp": "2026-06-03T15:15:52.743616+00:00",
+  "per_component": [
+    {
+      "component_id": "comp_001",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_002",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_003",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_004",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_005",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_006",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_007",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_008",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_009",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_010",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_011",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_012",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_013",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_014",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_015",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_016",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_017",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_018",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_019",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_020",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_021",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_022",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_023",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_024",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_025",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_026",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_027",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_028",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_029",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_030",
+      "ground_truth_label": "known_good",
+      "status": "known_good",
+      "flagged": false,
+      "cell": "TN"
+    },
+    {
+      "component_id": "comp_M01",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_M02",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_M03",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_M04",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_M05",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_A01",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_A02",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_A03",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_A04",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_A05",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_R01",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_R02",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_R03",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_R04",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    },
+    {
+      "component_id": "comp_R05",
+      "ground_truth_label": "compromised",
+      "status": "compromised",
+      "flagged": true,
+      "cell": "TP"
+    }
+  ],
+  "summary": {
+    "TP": 15,
+    "TN": 30,
+    "FP": 0,
+    "FN": 0,
+    "total": 45,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "raw_status_counts": {
+      "known_good": 30,
+      "compromised": 15
+    }
+  }
+}

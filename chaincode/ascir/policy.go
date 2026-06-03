@@ -11,10 +11,17 @@ import "sort"
 // uses no randomness. Every peer evaluating the same inputs produces a
 // byte-identical result, which Fabric's endorsement model requires.
 //
+// Every jurisdiction added by any phase must be a known jurisdiction on the
+// channel: a notification cannot be routed to a CERT that is not part of the
+// federation. A rule may therefore fire (appear in the trace) yet contribute
+// no recipient when its target jurisdiction is not currently present. This is
+// what makes the recipient set, and hence the overhead-reduction metric,
+// depend on the network size n.
+//
 // Parameters:
 //   - meta: the report's policy metadata (sectors, jurisdictions, scope, severity)
 //   - reporterOrg: the MSP ID of the reporting organization (excluded from recipients)
-//   - knownJurisdictions: all MSP IDs on the channel (defines ALL and the excluded complement)
+//   - knownJurisdictions: all MSP IDs on the channel (defines presence, ALL, and the excluded complement)
 //
 // Returns (recipients, excluded, trace), with recipients and excluded
 // sorted for determinism and trace in evaluation order.
@@ -23,36 +30,48 @@ func EvaluateSBA(meta PolicyMetadata, reporterOrg string, knownJurisdictions []s
 	set := map[string]bool{}
 	trace = []TraceEntry{}
 
+	// Membership lookup: a jurisdiction is eligible to be a recipient only if
+	// it is present on the channel.
+	known := map[string]bool{}
+	for _, k := range knownJurisdictions {
+		known[k] = true
+	}
+
+	// addIfKnown adds juris to the recipient set only when it is a known
+	// jurisdiction. It returns the slice to record as the rule's Added field:
+	// the singleton when present, or empty when the target is absent.
+	addIfKnown := func(juris string) []string {
+		if !known[juris] {
+			return []string{}
+		}
+		set[juris] = true
+		return []string{juris}
+	}
+
 	// --- Phase 1: direct sector mapping ---
-	// For each affected sector, add its primary jurisdiction. A sector code
-	// not in the vocabulary falls back to GOV's jurisdiction, preserving the
-	// BICIR behavior under unknown inputs (Section 4.3).
+	// For each affected sector, add its primary jurisdiction if that
+	// jurisdiction is present on the channel. A sector code not in the
+	// vocabulary falls back to GOV's jurisdiction (Section 4.3).
 	for _, sector := range meta.AffectedSectors {
 		juris, ok := PrimaryJurisdiction[sector]
 		if !ok {
-			// Unknown sector code: treat as GOV.
 			juris = PrimaryJurisdiction[SectorGOV]
-		}
-		if !set[juris] {
-			set[juris] = true
 		}
 		trace = append(trace, TraceEntry{
 			Rule:  "sector_mapping",
 			Input: sector,
-			Added: []string{juris},
+			Added: addIfKnown(juris),
 		})
 	}
 
 	// --- Phase 2: explicit jurisdiction inclusion ---
-	// Every listed jurisdiction is added. The literal "ALL" adds every known
-	// jurisdiction on the channel.
+	// Every listed jurisdiction is added if present. The literal "ALL" adds
+	// every known jurisdiction on the channel (inherently scoped).
 	for _, j := range meta.AffectedJurisdictions {
 		if j == JurisdictionsAll {
 			added := []string{}
 			for _, k := range knownJurisdictions {
-				if !set[k] {
-					set[k] = true
-				}
+				set[k] = true
 				added = append(added, k)
 			}
 			sort.Strings(added)
@@ -62,28 +81,22 @@ func EvaluateSBA(meta PolicyMetadata, reporterOrg string, knownJurisdictions []s
 				Added: added,
 			})
 		} else {
-			if !set[j] {
-				set[j] = true
-			}
 			trace = append(trace, TraceEntry{
 				Rule:  "explicit_jurisdiction",
 				Input: j,
-				Added: []string{j},
+				Added: addIfKnown(j),
 			})
 		}
 	}
 
 	// --- Phase 3: severity escalation ---
 	// A critical compromise routes to the general national CERT (Org4MSP)
-	// regardless of sector.
+	// regardless of sector, when that CERT is present on the channel.
 	if meta.Severity == SeverityCritical {
-		if !set[Org4MSP] {
-			set[Org4MSP] = true
-		}
 		trace = append(trace, TraceEntry{
 			Rule:  "severity_escalation",
 			Input: SeverityCritical,
-			Added: []string{Org4MSP},
+			Added: addIfKnown(Org4MSP),
 		})
 	}
 

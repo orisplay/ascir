@@ -50,12 +50,16 @@ def evaluate_sba(policy_metadata, reporter_org, jurisdictions=None):
     recipients = []  # preserve insertion order; dedup on add
     trace = []
 
+    known = set(jurisdictions)
+
     def add(jurisdiction, rule, input_value):
-        if jurisdiction not in recipients:
+        if jurisdiction not in known:
+            # Rule fired but its target is not present on the channel: add nothing.
+            trace.append({"rule": rule, "input": input_value, "added": []})
+        elif jurisdiction not in recipients:
             recipients.append(jurisdiction)
             trace.append({"rule": rule, "input": input_value, "added": [jurisdiction]})
         else:
-            # Still record that the rule fired, but added nothing new (dedup).
             trace.append({"rule": rule, "input": input_value, "added": []})
 
     sectors = policy_metadata.get("affected_sectors", []) or []

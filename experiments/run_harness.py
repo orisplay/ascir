@@ -104,7 +104,7 @@ def sh(cmd, dry_run):
     if res.returncode != 0:
         sys.stderr.write(f"command failed ({res.returncode}): {cmd}\n{res.stderr}\n")
         raise RuntimeError(res.stderr.strip() or "peer command failed")
-    return res.stdout
+    return res.stdout + res.stderr
 
 
 def invoke_report(scenario, n, dry_run):

@@ -1,0 +1,72 @@
+{
+  "n": 4,
+  "chaincode": {
+    "name": "ascir",
+    "version": "1.1",
+    "sequence": 1
+  },
+  "fabric_version": "2.5.15",
+  "endorser_count": 3,
+  "scenario_set": "routing_core",
+  "timestamp": "2026-06-03T14:44:22.402831+00:00",
+  "outputs": {
+    "fin_single": {
+      "authorized_recipients": [
+        "Org1MSP"
+      ]
+    },
+    "ci_single": {
+      "authorized_recipients": [
+        "Org2MSP"
+      ]
+    },
+    "hc_single": {
+      "authorized_recipients": [
+        "Org3MSP"
+      ]
+    },
+    "gov_single": {
+      "authorized_recipients": [
+        "Org4MSP"
+      ]
+    },
+    "ci_critical": {
+      "authorized_recipients": [
+        "Org2MSP",
+        "Org4MSP"
+      ]
+    },
+    "gov_critical_dedup": {
+      "authorized_recipients": [
+        "Org4MSP"
+      ]
+    },
+    "hc_plus_explicit_fin_org": {
+      "authorized_recipients": [
+        "Org1MSP",
+        "Org3MSP"
+      ]
+    },
+    "explicit_all_ci": {
+      "authorized_recipients": [
+        "Org2MSP",
+        "Org3MSP",
+        "Org4MSP"
+      ]
+    },
+    "fin_reporter_self_empty": {
+      "authorized_recipients": []
+    },
+    "ci_critical_reporter_ci": {
+      "authorized_recipients": [
+        "Org4MSP"
+      ]
+    },
+    "multi_sector_fin_hc": {
+      "authorized_recipients": [
+        "Org1MSP",
+        "Org3MSP"
+      ]
+    }
+  }
+}

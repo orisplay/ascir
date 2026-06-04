@@ -119,8 +119,14 @@ app.post('/route', async (req, res) => {
   let conn;
   try { conn = connFor(conns, asOrg); }
   catch (e) { return res.status(400).json({ error: msg(e) }); }
+  // The scoped SBA needs the set of jurisdictions present on the channel.
+  // Default to the orgs the backend is connected to; allow an explicit override
+  // via known_jurisdictions in the request body.
+  const known = Array.isArray(b.known_jurisdictions) && b.known_jurisdictions.length
+    ? b.known_jurisdictions
+    : [...conns.keys()];
   try {
-    return res.json(await routeCompromise(conn.contract, b.report_id));
+    return res.json(await routeCompromise(conn.contract, b.report_id, known));
   } catch (err) {
     return res.status(502).json({ error: 'RouteCompromise failed', detail: msg(err) });
   }

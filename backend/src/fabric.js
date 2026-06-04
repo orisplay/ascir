@@ -45,7 +45,7 @@ function orgPaths(mspId) {
     peerEndpoint: `localhost:${p.port}`,
     peerHostAlias: `peer0.${domain}`,
     certPath: path.join(base,
-      `users/User1@${domain}/msp/signcerts/User1@${domain}-cert.pem`),
+      `users/User1@${domain}/msp/signcerts/cert.pem`),
     keyDir: path.join(base, `users/User1@${domain}/msp/keystore`),
     tlsCertPath: path.join(base, `peers/peer0.${domain}/tls/ca.crt`),
   };
@@ -141,9 +141,12 @@ export async function reportCompromise(contract, args) {
   return JSON.parse(utf8Decoder.decode(resultBytes));
 }
 
-export async function routeCompromise(contract, reportId) {
+export async function routeCompromise(contract, reportId, knownJurisdictions) {
+  // RouteCompromise(reportID string, knownJurisdictions []string). The slice
+  // argument is passed as a JSON-encoded string, matching how the contract API
+  // unmarshals []string parameters.
   const resultBytes = await contract.submitTransaction(
-    'RouteCompromise', reportId);
+    'RouteCompromise', reportId, JSON.stringify(knownJurisdictions));
   return JSON.parse(utf8Decoder.decode(resultBytes));
 }
 

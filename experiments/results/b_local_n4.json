@@ -1,0 +1,113 @@
+{
+  "metric": "M3-baseline-Blocal",
+  "n": 4,
+  "jurisdictions": [
+    "Org1MSP",
+    "Org2MSP",
+    "Org3MSP",
+    "Org4MSP"
+  ],
+  "per_scenario": [
+    {
+      "id": "fin_single",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org1MSP"
+      ]
+    },
+    {
+      "id": "ci_single",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org2MSP"
+      ]
+    },
+    {
+      "id": "hc_single",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org3MSP"
+      ]
+    },
+    {
+      "id": "gov_single",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org4MSP"
+      ]
+    },
+    {
+      "id": "ci_critical",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org2MSP"
+      ]
+    },
+    {
+      "id": "gov_critical_dedup",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org4MSP"
+      ]
+    },
+    {
+      "id": "hc_plus_explicit_fin_org",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org3MSP"
+      ]
+    },
+    {
+      "id": "explicit_all_ci",
+      "r": 1,
+      "n": 4,
+      "blocal_reduction": 0.75,
+      "blocal_recipients": [
+        "Org2MSP"
+      ]
+    },
+    {
+      "id": "fin_reporter_self_empty",
+      "r": 0,
+      "n": 4,
+      "blocal_reduction": 1.0,
+      "blocal_recipients": []
+    },
+    {
+      "id": "ci_critical_reporter_ci",
+      "r": 0,
+      "n": 4,
+      "blocal_reduction": 1.0,
+      "blocal_recipients": []
+    },
+    {
+      "id": "multi_sector_fin_hc",
+      "r": 2,
+      "n": 4,
+      "blocal_reduction": 0.5,
+      "blocal_recipients": [
+        "Org1MSP",
+        "Org3MSP"
+      ]
+    }
+  ],
+  "summary": {
+    "mean_blocal_reduction": 0.7727,
+    "scenarios": 11,
+    "baseline": "B-Local (minimal sector-only routing; SBA Phase 1 only)"
+  }
+}

@@ -95,3 +95,7 @@ tls/
 *.tmp
 *.temp
 *.orig
+# stray build output
+/main
+# figure previews (keep PDFs, ignore PNGs)
+figs/*.png

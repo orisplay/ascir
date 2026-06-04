@@ -1,11 +1,13 @@
-// ASCIR backend — Fabric Gateway connection module.
+// ASCIR backend — Fabric Gateway connection module (multi-organization).
 //
-// Establishes a gateway connection to peer0.org1 of the test-network using
-// the User1 identity, and exposes helpers to query the ASCIR chaincode.
-// The crypto-material paths below point into the stock test-network tree and
-// are testbed-specific; a real deployment would provision a dedicated service
-// identity and read these from configuration. Uses the official
-// @hyperledger/fabric-gateway SDK (supported path for Fabric 2.4+).
+// Establishes gateway connections to one or more organizations' peers using
+// each org's User1 identity, and exposes helpers to query and submit to the
+// ASCIR chaincode. Multiple identities are supported so that write operations
+// (RegisterKnownGood, ReportCompromise) can be submitted under the MSP the
+// chaincode requires of the caller (requireCallerMSP). The crypto-material
+// paths point into the stock test-network tree and are testbed-specific; a
+// real deployment would provision dedicated service identities from config.
+// Uses the official @hyperledger/fabric-gateway SDK (Fabric 2.4+).
 
 import * as grpc from '@grpc/grpc-js';
 import { connect, hash, signers } from '@hyperledger/fabric-gateway';
@@ -16,63 +18,73 @@ import path from 'node:path';
 
 const utf8Decoder = new TextDecoder();
 
-// --- Testbed configuration (override via environment if desired) ----------
 const TEST_NETWORK =
   process.env.ASCIR_TEST_NETWORK ||
   path.join(process.env.HOME, 'research/fabric-samples/test-network');
 
-const MSP_ID = process.env.ASCIR_MSP_ID || 'Org1MSP';
 const CHANNEL = process.env.ASCIR_CHANNEL || 'mychannel';
 const CHAINCODE = process.env.ASCIR_CHAINCODE || 'ascir';
 
-// Peer endpoint and the hostname its TLS certificate is issued for. We connect
-// to localhost but the cert names peer0.org1.example.com, so gRPC needs the
-// ssl-target-name-override channel option or it rejects the certificate.
-const PEER_ENDPOINT = process.env.ASCIR_PEER_ENDPOINT || 'localhost:7051';
-const PEER_HOST_ALIAS = process.env.ASCIR_PEER_HOST || 'peer0.org1.example.com';
+// Per-organization profile. test-network peer0 ports: Org1 7051, Org2 9051,
+// Org3 11051, Org4 13051. TLS certs name peer0.orgN.example.com, so gRPC needs
+// ssl-target-name-override since we dial localhost.
+const ORG_PROFILES = {
+  Org1MSP: { num: 1, port: 7051 },
+  Org2MSP: { num: 2, port: 9051 },
+  Org3MSP: { num: 3, port: 11051 },
+  Org4MSP: { num: 4, port: 13051 },
+};
 
-const ORG1 = path.join(
-  TEST_NETWORK, 'organizations/peerOrganizations/org1.example.com');
-const CERT_PATH = path.join(
-  ORG1, 'users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem');
-const KEY_DIR = path.join(
-  ORG1, 'users/User1@org1.example.com/msp/keystore');
-const TLS_CERT_PATH = path.join(
-  ORG1, 'peers/peer0.org1.example.com/tls/ca.crt');
+function orgPaths(mspId) {
+  const p = ORG_PROFILES[mspId];
+  if (!p) throw new Error(`unknown MSP: ${mspId}`);
+  const domain = `org${p.num}.example.com`;
+  const base = path.join(TEST_NETWORK, 'organizations/peerOrganizations', domain);
+  return {
+    mspId,
+    peerEndpoint: `localhost:${p.port}`,
+    peerHostAlias: `peer0.${domain}`,
+    certPath: path.join(base,
+      `users/User1@${domain}/msp/signcerts/User1@${domain}-cert.pem`),
+    keyDir: path.join(base, `users/User1@${domain}/msp/keystore`),
+    tlsCertPath: path.join(base, `peers/peer0.${domain}/tls/ca.crt`),
+  };
+}
 
-// --- gRPC client -----------------------------------------------------------
-async function newGrpcConnection() {
-  const tlsRootCert = await fs.readFile(TLS_CERT_PATH);
+function configuredOrgs() {
+  const env = process.env.ASCIR_ORGS;
+  if (env) return env.split(',').map((s) => s.trim()).filter(Boolean);
+  return Object.keys(ORG_PROFILES);
+}
+
+async function newGrpcConnection(cfg) {
+  const tlsRootCert = await fs.readFile(cfg.tlsCertPath);
   const tlsCredentials = grpc.credentials.createSsl(tlsRootCert);
-  return new grpc.Client(PEER_ENDPOINT, tlsCredentials, {
-    'grpc.ssl_target_name_override': PEER_HOST_ALIAS,
+  return new grpc.Client(cfg.peerEndpoint, tlsCredentials, {
+    'grpc.ssl_target_name_override': cfg.peerHostAlias,
   });
 }
 
-async function newIdentity() {
-  const credentials = await fs.readFile(CERT_PATH);
-  return { mspId: MSP_ID, credentials };
+async function newIdentity(cfg) {
+  const credentials = await fs.readFile(cfg.certPath);
+  return { mspId: cfg.mspId, credentials };
 }
 
-async function newSigner() {
-  // The keystore dir contains a single private-key file (priv_sk).
-  const files = await fs.readdir(KEY_DIR);
-  const keyPath = path.join(KEY_DIR, files[0]);
+async function newSigner(cfg) {
+  const files = await fs.readdir(cfg.keyDir);
+  const keyPath = path.join(cfg.keyDir, files[0]);
   const privateKeyPem = await fs.readFile(keyPath);
   const privateKey = crypto.createPrivateKey(privateKeyPem);
   return signers.newPrivateKeySigner(privateKey);
 }
 
-// --- Public API ------------------------------------------------------------
-
-// connectGateway returns { gateway, client, contract }. Caller must close the
-// gateway and client when done (see closeGateway).
-export async function connectGateway() {
-  const client = await newGrpcConnection();
+async function connectOrg(mspId) {
+  const cfg = orgPaths(mspId);
+  const client = await newGrpcConnection(cfg);
   const gateway = connect({
     client,
-    identity: await newIdentity(),
-    signer: await newSigner(),
+    identity: await newIdentity(cfg),
+    signer: await newSigner(cfg),
     hash: hash.sha256,
     evaluateOptions: () => ({ deadline: Date.now() + 5000 }),
     endorseOptions: () => ({ deadline: Date.now() + 15000 }),
@@ -81,23 +93,60 @@ export async function connectGateway() {
   });
   const network = gateway.getNetwork(CHANNEL);
   const contract = network.getContract(CHAINCODE);
-  return { gateway, client, contract };
+  return { mspId, gateway, client, contract };
 }
 
-export function closeGateway({ gateway, client }) {
-  gateway.close();
-  client.close();
+// connectAll opens a gateway per configured org. Returns Map mspId -> conn.
+export async function connectAll() {
+  const orgs = configuredOrgs();
+  const conns = new Map();
+  for (const mspId of orgs) {
+    conns.set(mspId, await connectOrg(mspId));
+  }
+  return conns;
 }
 
-// queryStatus evaluates QueryCompromiseStatus for a manifest hash and returns
-// the parsed StatusResponse object.
+export function closeAll(conns) {
+  for (const { gateway, client } of conns.values()) {
+    try { gateway.close(); client.close(); } catch (_) { /* ignore */ }
+  }
+}
+
+export function connFor(conns, mspId) {
+  const c = conns.get(mspId);
+  if (!c) throw new Error(
+    `no gateway connected for ${mspId} (configured: ${[...conns.keys()].join(', ')})`);
+  return c;
+}
+
 export async function queryStatus(contract, manifestHash) {
   const resultBytes = await contract.evaluateTransaction(
     'QueryCompromiseStatus', manifestHash);
-  const resultJson = utf8Decoder.decode(resultBytes);
-  return JSON.parse(resultJson);
+  return JSON.parse(utf8Decoder.decode(resultBytes));
+}
+
+export async function registerKnownGood(contract, args) {
+  const { manifestHash, componentName, version, signerOrg, signedAt } = args;
+  const resultBytes = await contract.submitTransaction(
+    'RegisterKnownGood', manifestHash, componentName, version, signerOrg, signedAt);
+  return JSON.parse(utf8Decoder.decode(resultBytes));
+}
+
+export async function reportCompromise(contract, args) {
+  const { manifestHash, componentName, reporterOrg, reportedAt,
+          evidenceRef, policyMetadata } = args;
+  const resultBytes = await contract.submitTransaction(
+    'ReportCompromise', manifestHash, componentName, reporterOrg, reportedAt,
+    evidenceRef, JSON.stringify(policyMetadata));
+  return JSON.parse(utf8Decoder.decode(resultBytes));
+}
+
+export async function routeCompromise(contract, reportId) {
+  const resultBytes = await contract.submitTransaction(
+    'RouteCompromise', reportId);
+  return JSON.parse(utf8Decoder.decode(resultBytes));
 }
 
 export const config = {
-  TEST_NETWORK, MSP_ID, CHANNEL, CHAINCODE, PEER_ENDPOINT, PEER_HOST_ALIAS,
+  TEST_NETWORK, CHANNEL, CHAINCODE, orgs: configuredOrgs(),
 };

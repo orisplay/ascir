@@ -446,3 +446,69 @@ func formatUUIDLike(b []byte) string {
 	return fmt.Sprintf("%s-%s-%s-%s-%s",
 		hexStr[0:8], hexStr[8:12], hexStr[12:16], hexStr[16:20], hexStr[20:32])
 }
+
+
+// ---------------------------------------------------------------------------
+// ListKnownGood / ListReports (registry enumeration)
+// ---------------------------------------------------------------------------
+
+// ListKnownGood returns every known-good entry in the registry. It scans the
+// ObjKnownGood (KG) composite-key prefix with no hash attribute, mirroring the
+// partial-key iteration in QueryCompromiseStatus but one level up (all hashes).
+// Read-only; safe to evaluate on any peer.
+func (c *ASCIRContract) ListKnownGood(
+	ctx contractapi.TransactionContextInterface,
+) ([]KnownGoodEntry, error) {
+	stub := ctx.GetStub()
+	iter, err := stub.GetStateByPartialCompositeKey(ObjKnownGood, []string{})
+	if err != nil {
+		return nil, fmt.Errorf("kg partial query: %w", err)
+	}
+	defer iter.Close()
+
+	entries := []KnownGoodEntry{}
+	for iter.HasNext() {
+		kv, err := iter.Next()
+		if err != nil {
+			return nil, fmt.Errorf("kg iterate: %w", err)
+		}
+		var e KnownGoodEntry
+		if err := json.Unmarshal(kv.Value, &e); err != nil {
+			return nil, fmt.Errorf("kg unmarshal: %w", err)
+		}
+		entries = append(entries, e)
+	}
+	return entries, nil
+}
+
+// ListReports returns every compromise report in the registry, each annotated
+// with whether it has been retracted. Scans the ObjReport (CR) prefix with no
+// hash attribute. Read-only.
+func (c *ASCIRContract) ListReports(
+	ctx contractapi.TransactionContextInterface,
+) ([]ReportSummary, error) {
+	stub := ctx.GetStub()
+	iter, err := stub.GetStateByPartialCompositeKey(ObjReport, []string{})
+	if err != nil {
+		return nil, fmt.Errorf("cr partial query: %w", err)
+	}
+	defer iter.Close()
+
+	out := []ReportSummary{}
+	for iter.HasNext() {
+		kv, err := iter.Next()
+		if err != nil {
+			return nil, fmt.Errorf("cr iterate: %w", err)
+		}
+		var r CompromiseReport
+		if err := json.Unmarshal(kv.Value, &r); err != nil {
+			return nil, fmt.Errorf("cr unmarshal: %w", err)
+		}
+		retracted, err := c.reportIsRetracted(ctx, r.ReportID)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, ReportSummary{Report: r, Retracted: retracted})
+	}
+	return out, nil
+}

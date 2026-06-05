@@ -53,3 +53,16 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 .trace th, .trace td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
 .trace th { color: var(--muted); font-weight: 600; }
 footer { margin-top: 28px; text-align: center; color: var(--muted); font-size: 12px; }
+
+/* Registry browser */
+.browse { grid-column: 1 / -1; margin-top: 18px; }
+.browse h3 { font-size: 14px; margin: 16px 0 6px; color: var(--muted); }
+.browse .empty { color: var(--muted); font-size: 13px; font-style: italic; }
+.browse code.clickable { cursor: pointer; color: var(--accent); }
+.browse code.clickable:hover { text-decoration: underline; }
+.trace tr.retracted { opacity: .5; text-decoration: line-through; }
+
+/* Write-result status banner */
+.write-banner { margin-top: 12px; padding: 8px 12px; border-radius: 7px; font-size: 13px; font-weight: 600; }
+.write-banner.ok { background: rgba(63,185,80,.15); color: #3fb950; border: 1px solid rgba(63,185,80,.4); }
+.write-banner.warn { background: rgba(210,153,34,.15); color: #d29922; border: 1px solid rgba(210,153,34,.4); }

@@ -129,6 +129,17 @@ export async function queryStatus(contract, manifestHash) {
   return JSON.parse(utf8Decoder.decode(resultBytes));
 }
 
+// Registry enumeration (read-only). Any org's contract works.
+export async function listKnownGood(contract) {
+  const resultBytes = await contract.evaluateTransaction('ListKnownGood');
+  return JSON.parse(utf8Decoder.decode(resultBytes));
+}
+
+export async function listReports(contract) {
+  const resultBytes = await contract.evaluateTransaction('ListReports');
+  return JSON.parse(utf8Decoder.decode(resultBytes));
+}
+
 export async function registerKnownGood(contract, args) {
   const { manifestHash, componentName, version, signerOrg, signedAt } = args;
   const resultBytes = await contract.submitTransaction(

@@ -140,6 +140,14 @@ type RoutingDecision struct {
 	PolicyTrace           []TraceEntry `json:"policy_trace"`
 }
 
+// ReportSummary is a compromise report annotated with its retraction status,
+// returned by ListReports so callers can browse all reports without a per-hash
+// query.
+type ReportSummary struct {
+	Report    CompromiseReport `json:"report"`
+	Retracted bool             `json:"retracted"`
+}
+
 // ---------------------------------------------------------------------------
 // Composite-key object types (see DECISIONS.md D2)
 // ---------------------------------------------------------------------------

@@ -14,6 +14,14 @@ export async function getHealth() {
   const res = await fetch('/api/health');
   return res.json();
 }
+export async function getKnownGood() {
+  const res = await fetch('/api/known-good');
+  return res.json();
+}
+export async function getReports() {
+  const res = await fetch('/api/reports');
+  return res.json();
+}
 export const checkStatus = (manifest_hash) => post('/check', { manifest_hash });
 export const registerKnownGood = (b) => post('/register', b);
 export const reportCompromise = (b) => post('/report', b);

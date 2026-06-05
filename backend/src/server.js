@@ -19,7 +19,8 @@
 import express from 'express';
 import {
   connectAll, closeAll, connFor, queryStatus,
-  registerKnownGood, reportCompromise, routeCompromise, config,
+  registerKnownGood, reportCompromise, routeCompromise,
+  listKnownGood, listReports, config,
 } from './fabric.js';
 
 const PORT = process.env.ASCIR_BACKEND_PORT || 3000;
@@ -46,6 +47,20 @@ app.get('/health', (req, res) => {
       orgs: conns ? [...conns.keys()] : config.orgs,
     },
   });
+});
+
+app.get('/known-good', async (req, res) => {
+  const contract = anyContract();
+  if (!contract) return res.status(503).json({ error: 'no gateway connected yet' });
+  try { return res.json(await listKnownGood(contract)); }
+  catch (err) { return res.status(502).json({ error: 'ListKnownGood failed', detail: msg(err) }); }
+});
+
+app.get('/reports', async (req, res) => {
+  const contract = anyContract();
+  if (!contract) return res.status(503).json({ error: 'no gateway connected yet' });
+  try { return res.json(await listReports(contract)); }
+  catch (err) { return res.status(502).json({ error: 'ListReports failed', detail: msg(err) }); }
 });
 
 app.post('/check', async (req, res) => {

@@ -44,8 +44,7 @@ function orgPaths(mspId) {
     mspId,
     peerEndpoint: `localhost:${p.port}`,
     peerHostAlias: `peer0.${domain}`,
-    certPath: path.join(base,
-      `users/User1@${domain}/msp/signcerts/cert.pem`),
+    signcertsDir: path.join(base, `users/User1@${domain}/msp/signcerts`),
     keyDir: path.join(base, `users/User1@${domain}/msp/keystore`),
     tlsCertPath: path.join(base, `peers/peer0.${domain}/tls/ca.crt`),
   };
@@ -66,7 +65,12 @@ async function newGrpcConnection(cfg) {
 }
 
 async function newIdentity(cfg) {
-  const credentials = await fs.readFile(cfg.certPath);
+  // Signcert filename differs by crypto tooling: Fabric CA (-ca) writes
+  // cert.pem; cryptogen writes User1@<domain>-cert.pem. Pick whichever exists.
+  const files = await fs.readdir(cfg.signcertsDir);
+  const pem = files.find((f) => f.endsWith('.pem'));
+  if (!pem) throw new Error(`no signcert .pem in ${cfg.signcertsDir}`);
+  const credentials = await fs.readFile(path.join(cfg.signcertsDir, pem));
   return { mspId: cfg.mspId, credentials };
 }
 

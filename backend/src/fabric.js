@@ -168,3 +168,34 @@ export async function routeCompromise(contract, reportId, knownJurisdictions) {
 export const config = {
   TEST_NETWORK, CHANNEL, CHAINCODE, orgs: configuredOrgs(),
 };
+
+// ── M4 stage-timed submit (latency harness only) ──────────────────────────
+// Uses the fabric-gateway lower-level proposal/endorse/submit/commit flow so
+// endorsement and commit are measured at the SDK's own phase boundaries:
+//   endorse_ms : proposal.endorse()          — endorsing peers respond
+//   commit_ms  : submit() + commit.getStatus() — ordered, validated, committed
+// Production writes elsewhere in this file keep using submitTransaction().
+export async function submitTimedReport(contract, args) {
+  const { manifestHash, componentName, reporterOrg, reportedAt,
+          evidenceRef, policyMetadata } = args;
+  const t0 = process.hrtime.bigint();
+  const proposal = contract.newProposal('ReportCompromise', {
+    arguments: [manifestHash, componentName, reporterOrg, reportedAt,
+                evidenceRef, JSON.stringify(policyMetadata)],
+  });
+  const endorsed = await proposal.endorse();            // endorsement complete
+  const t1 = process.hrtime.bigint();
+  const commit = await endorsed.submit();
+  const status = await commit.getStatus();              // commit complete
+  const t2 = process.hrtime.bigint();
+  if (!status.successful) {
+    throw new Error(`tx ${status.transactionId} failed validation code ${status.code}`);
+  }
+  const toMs = (a, b) => Number((b - a) / 1000n) / 1000; // ns->ms, sub-us precision
+  return {
+    tx_id: status.transactionId,
+    endorse_ms: toMs(t0, t1),
+    commit_ms:  toMs(t1, t2),
+    total_ms:   toMs(t0, t2),
+  };
+}

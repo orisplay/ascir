@@ -4,35 +4,48 @@ A forensic framework for detecting agentic-AI supply-chain compromises at the
 artifact level and disseminating compromise notifications across jurisdictions
 through a permissioned blockchain.
 
-This repository contains the design documents, chaincode, network configurations,
-detection client, dataset, and experimental scripts for the ASCIR research
+This repository contains the chaincode, network configurations, backend API,
+investigator console, dataset, and experimental scripts for the ASCIR research
 project. The work extends the BICIR cross-national cyber incident response model
-with artifact-level compromise detection and a richer jurisdiction-aware routing
-policy, evaluated on a Hyperledger Fabric testbed at network sizes n = 2, 3,
-and 4.
+with artifact-level compromise detection and a jurisdiction-aware routing policy
+scoped to the organizations present on the channel, evaluated on a Hyperledger
+Fabric 2.5.15 testbed at network sizes n = 2, 3, and 4.
 
 ## Status
 
-Pre-implementation. Currently building the design specifications and reproducible
-testbed structure. See `docs/` for the working design documents.
+Implemented and evaluated. The system runs end-to-end (investigator console →
+multi-organization backend → four-organization Fabric network), and the four
+reported metrics (detection accuracy, routing precision, broadcast-overhead
+reduction, staged latency) have been measured on the testbed. A manuscript based
+on this work is in preparation.
 
 ## Repository Structure
 
-- `docs/` — Design documents (problem statement, chaincode interface, dataset spec)
-- `chaincode/` — Hyperledger Fabric chaincode in Go
-- `network/` — Fabric network configurations for n=2, n=3, n=4
-- `backend/` — Node.js REST API wrapping chaincode invocations
-- `detector/` — Python artifact-level compromise detector
-- `dataset/` — Seeded agent components and ground-truth labels
-- `experiments/` — Scripts to reproduce the measurement runs
-- `analysis/` — JupyterLab notebooks producing the paper figures
+* `chaincode/` — Hyperledger Fabric chaincode in Go (registry, detection, SBA routing, enumeration)
+* `backend/` — Node.js REST API wrapping chaincode invocations, one Fabric gateway per organization
+* `frontend/` — React/Vite investigator console (check, register, report, route, registry browser)
+* `dataset/` — Deterministic generator for the 45-component dataset + ground truth
+* `experiments/` — Measurement harnesses (M1–M4) and the independent routing oracle
+* `network/` — Network build notes (`scaling.md`) for n=2, n=3, n=4
+* `scripts/` — One-command network build, teardown, experiment runner, and demo guide
+* `analysis/` — Notebooks producing the paper figures
 
-## Reproducibility
+## Reproducing the testbed
 
-Reproduction instructions will land in `docs/reproducibility.md` once the first
-measurement run is complete. The repository is version-tagged at each major
-milestone; the tag corresponding to a given paper submission will be noted in
-the eventual paper.
+The network build is automated:
+
+    ./scripts/rebuild.sh 4        # bring up a 4-org network (also accepts 2 or 3)
+
+See `scripts/RUNBOOK.md` for prerequisites, tunable parameters (chaincode
+version, orderer batch timeout), and known gotchas, and `scripts/DEMO.md` for a
+step-by-step end-to-end demo (network → backend → frontend → GUI walk-through).
+The 45-component dataset is regenerated deterministically:
+
+    python dataset/generate.py
+
+**Note:** the build depends on Hyperledger `fabric-samples` (v2.5.15) and the
+hand-built `addOrg4/` assets under `fabric-samples/test-network/`; see
+`scripts/RUNBOOK.md` for the expected layout.
 
 ## License
 

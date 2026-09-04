@@ -93,6 +93,10 @@ fi
 
 say "STEP 5  add Org4 (hand-built)"
 cd "$TN"
+# Stage Org4 source assets from the repo so a clean clone can build n=4.
+cp -n "$ASCIR/network/addOrg4/org4-crypto.yaml" "$TN/addOrg4/" 2>/dev/null || true
+cp -n "$ASCIR/network/addOrg4/configtx.yaml"    "$TN/addOrg4/" 2>/dev/null || true
+cp -rn "$ASCIR/network/addOrg4/compose"         "$TN/addOrg4/" 2>/dev/null || true
 # 5a crypto
 cryptogen generate --config=addOrg4/org4-crypto.yaml --output=organizations
 # 5b org def + fetch config + splice

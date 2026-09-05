@@ -58,5 +58,5 @@ A `CITATION.cff` file will be added at first public release.
 
 ## Contact
 
-Osayomore O. Aigbogun — Department of Computer Science, Sam Houston State
-University — ooa020@shsu.edu
+Osayomore O. Aigbogun - Department of Computer Science, Sam Houston State
+University - ooa020@shsu.edu

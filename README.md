@@ -1,4 +1,4 @@
-# ASCIR — Agentic Supply-Chain Incident Routing
+# ASCIR - Agentic Supply-Chain Incident Routing
 
 A forensic framework for detecting agentic-AI supply-chain compromises at the
 artifact level and disseminating compromise notifications across jurisdictions
